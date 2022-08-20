@@ -36,11 +36,26 @@ func SetOnedriveInfo(conf *conf.AllSet) {
 
 	var endPoint oauth2.Endpoint
 	endPoint = user.RemoteConf.EndPoint
-	// 只申请读权限，避免应用程序进行修改，但使用 config.yml 给的默认 id 还是不太安全
-	var scopes = []string{"offline_access", "files.read", "https://graph.microsoft.com/Sites.Read.All"}
-	// 如果允许上传，则申请读写权限
-	if conf.Server.EnableUpload {
-		scopes = append(scopes, "https://graph.microsoft.com/Files.ReadWrite.All")
+	name := user.RemoteConf.Name
+	var scopes = []string{"offline_access", "files.read.all"}
+	switch name {
+	case "onedrive":
+		{
+			scopes = append(scopes, "https://graph.microsoft.com/Sites.Read.All")
+			// 如果允许上传，则申请读写权限
+			if conf.Server.EnableUpload {
+				scopes = append(scopes, "https://graph.microsoft.com/Files.ReadWrite.All")
+			}
+		}
+	case "chinacloud":
+		{
+			scopes = append(scopes, "https://microsoftgraph.chinacloudapi.cn/Sites.Read.All")
+			// 如果允许上传，则申请读写权限
+			if conf.Server.EnableUpload {
+				scopes = append(scopes, "https://microsoftgraph.chinacloudapi.cn/Files.ReadWrite.All")
+			}
+		}
+
 	}
 	SetROOTUrl(conf)
 	// 初始化 oauth 的 config
