@@ -1,6 +1,7 @@
 package routers
 
 import (
+	limit "github.com/aviddiviner/gin-limit"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
@@ -45,6 +46,7 @@ func InitRouter() *gin.Engine {
 
 	// 直接下载接口
 	root := r.Group("/")
+	root.Use(limit.MaxAllowed(10))
 	root.Use(middleware.CheckLogin())
 	{
 		r.GET("/d/*path", api.Download)
