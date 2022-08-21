@@ -46,11 +46,16 @@ func InitRouter() *gin.Engine {
 
 	// 直接下载接口
 	root := r.Group("/")
-	root.Use(limit.MaxAllowed(10))
 	root.Use(middleware.CheckLogin())
 	{
-		r.GET("/d/*path", api.Download)
 		r.GET("/README", middleware.CheckFolderPass(), api.GetREADME)
+	}
+
+	download := r.Group("/d")
+	download.Use(limit.MaxAllowed(10))
+	download.Use(middleware.CheckLogin())
+	{
+		r.GET("/*path", api.Download)
 	}
 
 	onedrive := r.Group("/onedrive")
