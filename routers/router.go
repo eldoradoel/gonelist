@@ -55,7 +55,7 @@ func InitRouter() *gin.Engine {
 	download.Use(limit.MaxAllowed(10))
 	download.Use(middleware.CheckLogin())
 	{
-		r.GET("/*path", api.Download)
+		download.GET("/*path", api.Download)
 	}
 
 	onedrive := r.Group("/onedrive")
