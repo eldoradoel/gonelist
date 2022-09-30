@@ -52,7 +52,7 @@ func InitRouter() *gin.Engine {
 	}
 
 	download := r.Group("/d")
-	download.Use(limit.MaxAllowed(10))
+	download.Use(limit.MaxAllowed(8))
 	download.Use(middleware.CheckLogin())
 	{
 		download.GET("/*path", api.Download)
