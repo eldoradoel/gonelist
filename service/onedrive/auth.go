@@ -49,7 +49,7 @@ func SetOnedriveInfo(conf *conf.AllSet) {
 		}
 	case "chinacloud":
 		{
-			scopes = append(scopes, "https://microsoftgraph.chinacloudapi.cn/Sites.Read.All")
+			scopes = append(scopes, "https://microsoftgraph.chinacloudapi.cn/Files.Read.All")
 			// 如果允许上传，则申请读写权限
 			if conf.Server.EnableUpload {
 				scopes = append(scopes, "https://microsoftgraph.chinacloudapi.cn/Files.ReadWrite.All")
