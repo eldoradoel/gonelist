@@ -2,6 +2,7 @@ package onedrive
 
 import (
 	"context"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 
 	"golang.org/x/oauth2"
@@ -59,5 +60,7 @@ func (s *storageTokenSource) Token() (*oauth2.Token, error) {
 	if err := s.Config.Storage.SetToken(token); err != nil {
 		return nil, err
 	}
+	log.WithField("refresh_token", token.RefreshToken).Infof("从 远端 获取refresh_token成功")
+	log.WithField("expiry", token.Expiry).Infof("refresh_token 过期时间")
 	return token, nil
 }
