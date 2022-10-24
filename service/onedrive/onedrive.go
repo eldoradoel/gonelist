@@ -53,6 +53,7 @@ func RefreshOnedriveAll() error {
 	log.Info("开始刷新文件缓存")
 	if _, err := GetAllFiles(); err != nil { // 获取所有文件并且刷新树结构
 		log.WithField("err", err).Error("刷新文件缓存遇到错误")
+		gRefreshStatus = REFRESH_NONE
 		return err
 	}
 	log.Infof("结束刷新文件缓存")
@@ -61,6 +62,7 @@ func RefreshOnedriveAll() error {
 	log.Info("开始刷新 README 缓存")
 	if err := RefreshREADME(); err != nil {
 		log.WithField("err", err).Error("刷新 README 缓存遇到错误")
+		gRefreshStatus = REFRESH_NONE
 		return err
 	}
 	log.Info("结束刷新 README 缓存")
