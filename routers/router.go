@@ -1,12 +1,12 @@
 package routers
 
 import (
-	limit "github.com/aviddiviner/gin-limit"
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	cors "github.com/rs/cors/wrapper/gin"
 
+	ratelimit "github.com/jonsen/gin-ratelimit"
 	"gonelist/conf"
 	"gonelist/middleware"
 	"gonelist/routers/api"
@@ -52,7 +52,7 @@ func InitRouter() *gin.Engine {
 	}
 
 	download := r.Group("/d")
-	download.Use(limit.MaxAllowed(5))
+	download.Use(ratelimit.RateLimit(20))
 	download.Use(middleware.CheckLogin())
 	{
 		download.GET("/*path", api.Download)
